@@ -1,6 +1,6 @@
 import { TransactionService } from "@/service/TransactionService";
-import type { TransactionDto } from "@/types/TransactionDto";
+import type { CreateTransaction } from "@/interface/ITransaction";
 
-export const createTransactionUseCase = async (data: TransactionDto) => {
-    return TransactionService.create(data)
-}
+export const createTransactionUseCase = async (data: CreateTransaction) => {
+  return TransactionService.create(data);
+};

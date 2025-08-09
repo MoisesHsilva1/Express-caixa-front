@@ -1,10 +1,10 @@
-import type { TransactionDto } from "@/types/TransactionDto";
+import type { CreateTransaction } from "@/interface/ITransaction";
 import { createTransactionUseCase } from "@/usecases/createTransactionUseCase";
 import { useMutation } from "@tanstack/react-query";
 
 export const useCreateTransaction = () => {
   return useMutation({
-    mutationFn: (transaction: TransactionDto) =>
+    mutationFn: (transaction: CreateTransaction) =>
       createTransactionUseCase(transaction),
   });
 };

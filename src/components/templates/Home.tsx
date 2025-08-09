@@ -10,6 +10,9 @@ import TransactionHistoryCard from "../molecules/TransactionHistoryCard";
 import CashOverviewCard from "../molecules/CashOverviewCard";
 import FinancialReportCard from "../molecules/FinancialReportCard";
 import { useCreateTransaction } from "@/hooks/useCreateTransaction";
+import { useTransaction } from "@/hooks/useTransaction";
+import { Card, CardHeader, CardTitle } from "../ui/card";
+import { GiBackwardTime } from "react-icons/gi";
 
 function Home() {
   const [activeTab, setActiveTab] = useState<"movements" | "reports">(
@@ -20,6 +23,8 @@ function Home() {
   >("cashIn");
 
   const { mutate: createTransaction } = useCreateTransaction();
+  useTransaction();
+  const { data: transactions } = useTransaction();
   const methods = useForm();
 
   const valueCash = useWatch({
@@ -34,7 +39,7 @@ function Home() {
 
   const onSubmitCashTransaction = () => {
     const data = {
-      amount: valueCash,
+      amount: Number(valueCash),
       type: typeCashTransaction,
       description: descriptionCashTransaction,
     };
@@ -79,11 +84,34 @@ function Home() {
                   onSubmitCashTransaction
                 )}
               />
-              <TransactionHistoryCard
-                cashDescription={"sadsadsad"}
-                cashValue={0}
-                transactionDay={"04/10"}
-              />
+              <Card className="w-full lg:w-94">
+                <CardHeader>
+                  <CardTitle className="text-lg text-center font-semibold text-gray-800">
+                    Histórico de Movimentações
+                  </CardTitle>
+                  <div className="-mx-4 mt-4 border-t border-gray-200"></div>
+                </CardHeader>
+                {transactions?.slice(0, 4).map((t) => (
+                  <TransactionHistoryCard
+                    cashDescription={t.description}
+                    cashValue={t.amount}
+                    transactionDay={new Date(t.transaction_date)}
+                  />
+                ))}
+                {transactions?.length === 0 && (
+                  <div className="flex justfiy-center items-center flex-col">
+                    <div className="w-16 h-16 mx-auto bg-gray-100 rounded-full flex items-center justify-center mb-4">
+                      <GiBackwardTime size="26" color="gray" />
+                    </div>
+                    <p className="text-gray-500">
+                      Nenhuma movimentação registradas
+                    </p>
+                    <p className="text-sm text-gray-400 mt-1">
+                      Comece adicionando uma entrada ou saída
+                    </p>
+                  </div>
+                )}
+              </Card>
             </div>
           )}
           {activeTab === "reports" && (

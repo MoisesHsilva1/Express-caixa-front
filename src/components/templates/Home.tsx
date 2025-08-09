@@ -9,6 +9,7 @@ import CashMovementCard from "../molecules/CashMovementCard";
 import TransactionHistoryCard from "../molecules/TransactionHistoryCard";
 import CashOverviewCard from "../molecules/CashOverviewCard";
 import FinancialReportCard from "../molecules/FinancialReportCard";
+import { useCreateTransaction } from "@/hooks/useCreateTransaction";
 
 function Home() {
   const [activeTab, setActiveTab] = useState<"movements" | "reports">(
@@ -18,6 +19,7 @@ function Home() {
     "cashIn" | "cashOut"
   >("cashIn");
 
+  const { mutate: createTransaction } = useCreateTransaction();
   const methods = useForm();
 
   const valueCash = useWatch({
@@ -32,11 +34,12 @@ function Home() {
 
   const onSubmitCashTransaction = () => {
     const data = {
-      value: valueCash,
+      amount: valueCash,
+      type: typeCashTransaction,
       description: descriptionCashTransaction,
     };
 
-    // future feature send hook for api
+    createTransaction(data);
   };
 
   return (

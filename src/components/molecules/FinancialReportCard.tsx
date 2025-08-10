@@ -69,7 +69,7 @@ function FinancialReportCard({
         </CardContent>
         <CardFooter className="flex justify-between">
           <h1 className="text-sm font-medium text-gray-700">Saldo:</h1>
-          <p className="text-green-600">
+          <p className={balance ?? 0 >= 0 ? "text-red-500" : "text-green-600"}>
             {balance?.toLocaleString("pt-br", {
               style: "currency",
               currency: "BRL",

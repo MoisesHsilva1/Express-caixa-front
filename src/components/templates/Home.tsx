@@ -13,6 +13,7 @@ import { useCreateTransaction } from "@/hooks/useCreateTransaction";
 import { useTransaction } from "@/hooks/useTransaction";
 import { Card, CardHeader, CardTitle } from "../ui/card";
 import { GiBackwardTime } from "react-icons/gi";
+import { useTransactionReport } from "@/hooks/useTransactionReport";
 
 function Home() {
   const [activeTab, setActiveTab] = useState<"movements" | "reports">(
@@ -25,6 +26,8 @@ function Home() {
   const { mutate: createTransaction } = useCreateTransaction();
   useTransaction();
   const { data: transactions } = useTransaction();
+  const { data: transactionReport } = useTransactionReport();
+
   const methods = useForm();
 
   const valueCash = useWatch({
@@ -51,7 +54,7 @@ function Home() {
     <FormProvider {...methods}>
       <main className="bg-neutral-100 flex items-center justify-center px-4 sm:px-6 lg:px-67 py-10">
         <section className="flex gap-6 flex-col sm:flex-wrap lg:flex-wrap w-full max-w-7xl">
-          <CashValueCard cash={0} />
+          <CashValueCard cash={transactionReport?.balance || 0} />
           <div className="flex flex-row gap-2">
             <Button
               onClick={() => setActiveTab("movements")}
@@ -93,6 +96,7 @@ function Home() {
                 </CardHeader>
                 {transactions?.slice(0, 4).map((t) => (
                   <TransactionHistoryCard
+                    typeTransaction={t.type}
                     cashDescription={t.description}
                     cashValue={t.amount}
                     transactionDay={new Date(t.transaction_date)}
@@ -121,17 +125,17 @@ function Home() {
               </h1>
               <div className="flex flex-wrap gap-4">
                 <FinancialReportCard
-                  cashIn={0}
-                  cashOut={0}
+                  cashIn={transactionReport?.totalCashIn}
+                  cashOut={transactionReport?.totalCashOut}
                   colorBgIcon="bg-blue-500"
                   icon={<IoToday color="white" />}
                   period="Hoje"
-                  balance={0}
+                  balance={transactionReport?.balance || 0}
                   lastOperations="24 horas"
                 />
                 <FinancialReportCard
-                  cashIn={0}
-                  cashOut={0}
+                  cashIn={transactionReport?.totalCashIn}
+                  cashOut={transactionReport?.totalCashOut}
                   period="Esta Semana"
                   icon={<BsCalendar2WeekFill color="white" />}
                   colorBgIcon="bg-blue-500"
@@ -140,8 +144,8 @@ function Home() {
                 />
                 <FinancialReportCard
                   period="Este Mês"
-                  cashIn={0}
-                  cashOut={0}
+                  cashIn={transactionReport?.totalCashIn}
+                  cashOut={transactionReport?.totalCashOut}
                   colorBgIcon="bg-blue-500"
                   lastOperations="24 horas"
                   balance={0}
@@ -150,8 +154,8 @@ function Home() {
                 <CashOverviewCard
                   cashInRegister={0}
                   cashOutRegister={0}
-                  cashInTotal={0}
-                  cashOutTotal={0}
+                  cashInTotal={transactionReport?.totalCashIn}
+                  cashOutTotal={transactionReport?.totalCashOut}
                   totalTransactions={0}
                 />
               </div>

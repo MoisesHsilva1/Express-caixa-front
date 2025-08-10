@@ -1,6 +1,7 @@
+import { api } from "./api";
 import type { CreateTransaction } from "@/interface/ITransaction";
 import type { TransactionResponse } from "@/interface/ITransactionReponse";
-import { api } from "./api";
+import type { TransactionReport } from "@/interface/ITransactionReport";
 
 export const TransactionService = {
   create: async (data: CreateTransaction) => {
@@ -9,6 +10,10 @@ export const TransactionService = {
   },
   findAll: async (): Promise<TransactionResponse[]> => {
     const reponse = await api.get("/transactions");
+    return reponse.data;
+  },
+  findReport: async (): Promise<TransactionReport> => {
+    const reponse = await api.get(`/transactions/transaction-report`);
     return reponse.data;
   },
 };

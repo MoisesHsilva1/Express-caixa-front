@@ -4,10 +4,12 @@ function TransactionHistoryCard({
   cashDescription,
   cashValue,
   transactionDay,
+  typeTransaction,
 }: {
   cashDescription: string;
   cashValue: number;
   transactionDay: Date;
+  typeTransaction: string;
 }) {
   return (
     <>
@@ -24,7 +26,7 @@ function TransactionHistoryCard({
           </p>
           <p
             className={
-              cashValue >= 0
+              typeTransaction === "cashOut"
                 ? "text-green-600 text-sm font-semibold"
                 : "text-red-500 text-sm font-semibold"
             }

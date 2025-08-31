@@ -12,8 +12,8 @@ export const TransactionService = {
     const reponse = await api.get("/transactions");
     return reponse.data;
   },
-  findReport: async (): Promise<TransactionReport> => {
-    const reponse = await api.get(`/transactions/transaction-report`);
+  findReportByType: async (type: string): Promise<TransactionReport> => {
+    const reponse = await api.get(`/transactions/${type}`);
     return reponse.data;
   },
 };

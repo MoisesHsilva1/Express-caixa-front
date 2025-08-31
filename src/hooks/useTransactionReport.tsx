@@ -1,9 +1,10 @@
-import { findTransactionReport } from "@/usecases/findTransactionReportUseCase";
+import { findReportByTypeUseCase } from "@/usecases/findReportByTypeUseCase";
 import { useQuery } from "@tanstack/react-query";
 
-export const useTransactionReport = () => {
+export const useTransactionReportByType = (type: string) => {
   return useQuery({
     queryKey: ["findTransactionReport"],
-    queryFn: () => findTransactionReport(),
+    queryFn: () => findReportByTypeUseCase(type),
+    enabled: !!type,
   });
 };

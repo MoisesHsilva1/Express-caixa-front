@@ -1,5 +1,3 @@
 export interface TransactionReport {
-  totalCashIn: number;
-  totalCashOut: number;
-  balance: number;
+  report: number;
 }

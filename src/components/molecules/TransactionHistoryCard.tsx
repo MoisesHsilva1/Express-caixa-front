@@ -26,7 +26,7 @@ function TransactionHistoryCard({
           </p>
           <p
             className={
-              typeTransaction === "cashOut"
+              typeTransaction === "cashIn"
                 ? "text-green-600 text-sm font-semibold"
                 : "text-red-500 text-sm font-semibold"
             }
